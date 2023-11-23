@@ -22,12 +22,15 @@ Dependencies
 ------------
 
 All tasks are split in diferent files for easier reading:
+```
+---
 - import_tasks: install_nessesary_packages.yml
 - import_tasks: install_repos.yml
 - import_tasks: install_configure_rabbitmq.yml
 - import_tasks: install_firewall.yml
 - import_tasks: open_firewall.yml
-
+# tasks file for /etc/ansible/roles/rabbitmq
+```
 
 Example Playbook
 ----------------
@@ -35,6 +38,7 @@ Example Playbook
 Including example of how to run ansible role:
 
 Add this to  /etc/ansible/runsetup.yml:
+
 ```
 ---
 - hosts: debian
@@ -42,14 +46,16 @@ Add this to  /etc/ansible/runsetup.yml:
   - rabbitmq
 ```
 Hit save and run with:
- /etc/ansible/runsetup.yml --ask-vault-pass
 
+```
+ /etc/ansible/runsetup.yml --ask-vault-pass
+```
 Vault pass is: test
 
 License
 -------
 
-BSD
+GPL
 
 Author Information
 ------------------
