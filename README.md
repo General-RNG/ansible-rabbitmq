@@ -35,11 +35,12 @@ Example Playbook
 Including example of how to run ansible role:
 
 Add this to  /etc/ansible/runsetup.yml:
+```
 ---
 - hosts: debian
   roles:
   - rabbitmq
-
+```
 Hit save and run with:
  /etc/ansible/runsetup.yml --ask-vault-pass
 
