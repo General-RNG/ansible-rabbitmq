@@ -28,7 +28,6 @@ All tasks are split in diferent files for easier reading:
 - import_tasks: install_configure_rabbitmq.yml
 - import_tasks: install_firewall.yml
 - import_tasks: open_firewall.yml
-# tasks file for /etc/ansible/roles/rabbitmq
 
 
 Example Playbook
