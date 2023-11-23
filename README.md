@@ -15,8 +15,10 @@ Role Variables
 
 In this role we have 2 users with encrypted passwods 'vault vault_test_user_password' and 'vault_admin_user_password' 
 You can create your own users or use already created ones to connect to RabbitMQ management web:
+```
 test user pass: test
 admin user pass: test123
+```
 
 Dependencies
 ------------
