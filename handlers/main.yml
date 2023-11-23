@@ -1,0 +1,7 @@
+---
+- name: restart rabbitmq-server
+  service:
+    name: rabbitmq-server
+    state: restarted
+  listen: 'restart rabbitmq-server'
+# handlers file for /etc/ansible/roles/rabbitmq

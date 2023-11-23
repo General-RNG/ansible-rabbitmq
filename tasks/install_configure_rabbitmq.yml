@@ -1,0 +1,78 @@
+---
+- name: Update repo cache and install rabbitmq-server
+  apt:
+    name: rabbitmq-server
+    state: latest
+    update_cache: true
+
+- name: Create rabbitmq-service directory
+  file:
+    dest: /etc/systemd/system/rabbitmq-server.service.d
+    state: directory
+  register: systemd_unit
+
+- name: Enable rabbitmq_management plugin
+  community.rabbitmq.rabbitmq_plugin:
+    names: rabbitmq_management
+    state: enabled
+
+- name: Remove guest user
+  community.rabbitmq.rabbitmq_user:
+    user: guest
+    state: absent
+
+- name: Create vhost /prod/test
+  community.rabbitmq.rabbitmq_vhost:
+    name: /prod/test
+    state: present
+
+- name: add admin user
+  community.rabbitmq.rabbitmq_user:
+    user: admin
+    password: "{{ vault_admin_user_password }}"
+    vhost: /prod/test
+    configure_priv: .*
+    read_priv: .*
+    write_priv: .*
+    tags: administrator
+    state: present
+
+- name: add test user
+  community.rabbitmq.rabbitmq_user:
+    user: test
+    password: "{{ vault_test_user_password }}"
+    vhost: /prod/test
+    configure_priv: ^$
+    read_priv: .*
+    write_priv: .*
+    state: present
+
+- name: Modify rabbitmq limits to 100k
+  template:
+    src: "templates/rabbitmq_limits.conf"
+    dest: "/etc/systemd/system/rabbitmq-server.service.d/limits.conf"
+  notify: restart rabbitmq-server
+
+- name: Enable rabbitmq at startup (systemd)
+  systemd:
+    name: rabbitmq-server
+    enabled: true
+    state: started
+  when:
+    - ansible_service_mgr == "systemd"
+
+- name: Reload systemd
+  systemd:
+    daemon_reload: true
+  notify: restart rabbitmq-server
+  when: systemd_unit is changed
+
+- name: Launch rabbitmq config script
+  ansible.builtin.script:
+    cmd: /etc/ansible/roles/rabbitmq/files/rabbitmq_script.py
+    executable: /usr/bin/python3
+  register: result
+
+- debug:
+    msg: "{{ result }}"
+# tasks file for /etc/ansible/roles/rabbitmq

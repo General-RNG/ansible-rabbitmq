@@ -1,0 +1,15 @@
+---
+- name: Install nessesary packages
+  apt:
+    name:
+      - gnupg2
+      - curl
+      - wget
+      - apt-transport-https
+      - software-properties-common
+      - python3
+      - python3-pip
+      - python3-pika
+    state: present
+    update_cache: true
+# tasks file for /etc/ansible/roles/rabbitmq

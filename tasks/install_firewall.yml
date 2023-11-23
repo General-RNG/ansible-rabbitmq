@@ -1,0 +1,29 @@
+---
+- name: Install ufw firewall
+  apt:
+    name: ufw
+    update_cache: true
+    state: latest
+
+- name: Open ssh port
+  community.general.ufw:
+    rule: allow
+    port: ssh
+    proto: tcp
+
+- name: Enable UFW
+  community.general.ufw:
+    state: enabled
+
+- name: Outgoing allow
+  community.general.ufw:
+    state: enabled
+    direction: outgoing
+    policy: allow
+
+- name: Incoming deny
+  community.general.ufw:
+    state: enabled
+    direction: incoming
+    policy: deny
+# tasks file for /etc/ansible/roles/rabbitmq

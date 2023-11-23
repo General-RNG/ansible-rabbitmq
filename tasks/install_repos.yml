@@ -1,0 +1,49 @@
+---
+- name: Erlang package repositories and key
+  block:
+    - name: Erlang/OTP | no apt key
+      ansible.builtin.get_url:
+        url: "https://github.com/rabbitmq/signing-keys/releases/\
+             download/3.0/cloudsmith.rabbitmq-erlang.E495BB49CC4BBE5B.key"
+        dest: /usr/share/keyrings/rabbitmq.E495BB49CC4BBE5B.acs
+
+    - name: Erlang/OTP Mirror 1 | apt source
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/\
+              rabbitmq.E495BB49CC4BBE5B.acs]
+              https://ppa1.novemberain.com/rabbitmq/rabbitmq-erlang/deb/debian
+              {{ ansible_distribution_release }} main"
+        state: present
+
+    - name: Erlang/OTP Mirror 2 | apt source
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/\
+              rabbitmq.E495BB49CC4BBE5B.acs]
+              https://ppa2.novemberain.com/rabbitmq/rabbitmq-erlang/deb/debian
+              {{ ansible_distribution_release }} main"
+        state: present
+
+- name: RabbitMQ package repositories and key
+  block:
+    - name: RabbitMQ | no apt key
+      ansible.builtin.get_url:
+        url: "https://github.com/rabbitmq/signing-keys/releases/\
+             download/3.0/cloudsmith.rabbitmq-server.9F4587F226208342.key"
+        dest: /usr/share/keyrings/rabbitmq.9F4587F226208342.acs
+
+    - name: RabbitMQ Mirror 1 | apt source
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/\
+              rabbitmq.9F4587F226208342.acs] https://ppa1.novemberain.com/\
+              rabbitmq/rabbitmq-server/deb/debian
+              {{ ansible_distribution_release }} main"
+        state: present
+
+    - name: RabbitMQ Mirror 2 | apt source
+      ansible.builtin.apt_repository:
+        repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/\
+              rabbitmq.9F4587F226208342.acs] https://ppa2.novemberain.com/\
+              rabbitmq/rabbitmq-server/deb/debian
+              {{ ansible_distribution_release }} main"
+        state: present
+# tasks file for /etc/ansible/roles/rabbitmq
