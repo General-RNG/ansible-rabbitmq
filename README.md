@@ -22,7 +22,6 @@ Dependencies
 ------------
 
 All tasks are split in diferent files for easier reading:
----
 - import_tasks: install_nessesary_packages.yml
 - import_tasks: install_repos.yml
 - import_tasks: install_configure_rabbitmq.yml
